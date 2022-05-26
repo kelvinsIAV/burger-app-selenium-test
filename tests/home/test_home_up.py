@@ -13,17 +13,22 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 
 webhook_url = "https://discord.com/api/webhooks/841577243751088148/0aiGgeGATYNaG0hj-dFo5chxwp3Avrfq1Xj46-G_MLICX2gm_ROTKmPip8oCzuaL3YUd"
 
+chrome_mac_driver_path = "Driver/chromedriver_mac64"
+chrome_linux_driver_path = "Driver/chromedriver_linux64"
+
+options = Options()
+options.add_argument('--headless')
+options.add_argument('--disable-gpu') 
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-infobars')
+options.add_argument('--disable-dev-shm-usage')
+
+driver = webdriver.Chrome(chrome_mac_driver_path, options=options) 
+# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 try:
-    # driver = webdriver.Chrome("Driver/chromedriver_mac64") 
-    options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu') 
-
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=options)
     driver.get("https://consumer.burgerchain.stg.thenewfork.com") 
     driver.maximize_window() 
-
     try:
         driver.find_element(by=By.XPATH, value="//h1[contains(text(),'Track all 9 ingredients')]")
         print("Website is working")

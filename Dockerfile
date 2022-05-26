@@ -3,26 +3,40 @@ FROM python:3.8
 # Adding trusting keys to apt for repositories
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 
-# Adding Google Chrome to the repositories
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-
 # Updating apt to see and install Google Chrome
 RUN apt-get -y update
 
-# Magic happens
-RUN apt-get install -y google-chrome-stable
+RUN apt-get update \
+  && apt-get install libxi6 \
+    build-essential \
+    gnupg2 \
+    curl \
+    less \
+    git \
+    wget \
+    libnss3 \
+    libgconf-2-4 \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libgtk-3-0 \
+    libx11-xcb1 \
+    libxss1 \
+    lsb-release \
+    xdg-utils \
+    libgbm1 \
+    libxcomposite1 -y \
+  && apt-get clean \
+  && rm -rf /var/cache/apt/archives/* \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+  && truncate -s 0 /var/log/*log
 
-# Installing Unzip
-RUN apt-get install -yqq unzip
-
-# Download the Chrome Driver
-RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
-
-# Unzip the Chrome Driver into /usr/local/bin directory
-RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
-
-# Set display port as an environment variable
-ENV DISPLAY=:99
+RUN curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome.deb
+RUN sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+RUN rm google-chrome.deb
 
 COPY . /app
 WORKDIR /app
