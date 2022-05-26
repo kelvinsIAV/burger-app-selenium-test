@@ -10,8 +10,12 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from time import sleep
 from discord_webhook import DiscordWebhook, DiscordEmbed
+from dotenv import load_dotenv
 
-webhook_url = "https://discord.com/api/webhooks/841577243751088148/0aiGgeGATYNaG0hj-dFo5chxwp3Avrfq1Xj46-G_MLICX2gm_ROTKmPip8oCzuaL3YUd"
+load_dotenv()
+
+website_url = str(os.environ['BASE_URL'])
+webhook_url = str(os.environ['DISCORD_WEBHOOK_URL'])
 
 chrome_mac_driver_path = "Driver/chromedriver_mac64"
 chrome_linux_driver_path = "Driver/chromedriver_linux64"
@@ -27,7 +31,7 @@ driver = webdriver.Chrome(chrome_mac_driver_path, options=options)
 # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 try:
-    driver.get("https://consumer.burgerchain.stg.thenewfork.com") 
+    driver.get(website_url) 
     driver.maximize_window() 
     try:
         driver.find_element(by=By.XPATH, value="//h1[contains(text(),'Track all 9 ingredients')]")
