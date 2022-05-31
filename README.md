@@ -10,10 +10,14 @@
 5. Run this command to run single test. e.g. `python tests/home/test_home_up.py`
 > python <DIRECTORY_PATH> 
 6. Run this command to run multiple tests at once
-> WILL BE ADDED
+> python tests/home.py
 
 ## Setup in Containerized Environment
 1. Build the docker images
 > docker build -t gcr.io/chefchain-staging-341708/selenium:TAG_NAME_HERE .
 2. Run the docker images
 3. Inside the container directory run the same command as in Step 5 or 6 above.
+
+## External Useful Links
+Loading Test Suites Unittest Python Selenium 
+https://chercher.tech/python/loading-test-suites-unittest-python-selenium

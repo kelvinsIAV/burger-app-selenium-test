@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class TestHomepageUp(unittest.TestCase):
+class DummyTest(unittest.TestCase):
     website_url = str(os.environ['BASE_URL'])
     webhook_url = str(os.environ['DISCORD_WEBHOOK_URL'])
 
